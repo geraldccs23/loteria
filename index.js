@@ -1,22 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const db = require('./config/db');
-
 const app = express();
+const PORT = 3000;
 
-// Middlewares
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware para manejar JSON
+app.use(express.json());
 
-// Rutas
+// Importar las rutas
+const apuestasRoutes = require('./routes/apuestas');
+const mesasRoutes = require('./routes/mesas');
+const usuariosRoutes = require('./routes/usuarios');
+
+// Usar las rutas
+app.use('/apuestas', apuestasRoutes);
+app.use('/mesas', mesasRoutes);
+app.use('/usuarios', usuariosRoutes);
+
+// Ruta de prueba principal
 app.get('/', (req, res) => {
-    res.send('Servidor funcionando');
+    res.send('¡Servidor de Lotería funcionando!');
 });
 
-// Puerto desde .env
-const PORT = process.env.PORT || 3000;
+// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
